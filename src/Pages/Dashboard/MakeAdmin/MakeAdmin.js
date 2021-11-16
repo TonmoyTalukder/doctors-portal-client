@@ -15,10 +15,10 @@ const MakeAdmin = () => {
 
         const user = {email};
 
-        fetch('http://localhost:5000/users/admin', {
+        fetch('https://afternoon-basin-62785.herokuapp.com/users/admin', {
             method: 'PUT',
             headers: {
-                'authorization': `Bearer ${token}`,
+                // 'authorization': `Bearer ${token}`,
                 'content-type': 'application/json'
             },
             body: JSON.stringify(user)

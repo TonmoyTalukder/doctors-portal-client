@@ -22,7 +22,7 @@ const style = {
 };
 
 const BookingModal = ({openBooking, handleBookingClose, booking, date, setBookingSuccess}) => {
-    const {name, time} = booking;
+    const {name, time, price} = booking;
     const {user} = useAuth();
 
     const initialInfo = { patientName: user.displayName, patientPhone: '', patientEmail: user.email };
@@ -45,12 +45,13 @@ const BookingModal = ({openBooking, handleBookingClose, booking, date, setBookin
         const appointment = {
           ...bookingInfo,
           time,
+          price,
           serviceName : name,
           date : date.toLocaleDateString()
         }
         // Send data to server
         // console.log(appointment);
-        fetch('http://localhost:5000/appointments',{
+        fetch('https://afternoon-basin-62785.herokuapp.com/appointments',{
           method: 'POST',
           headers: {
             'content-type': 'application/json'

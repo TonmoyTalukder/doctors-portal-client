@@ -9,13 +9,16 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { Link } from 'react-router-dom';
+import { Button } from '@mui/material';
 
-const Appoinments = ({date}) => {
+const Appointments = ({date}) => {
     const {user} = useAuth();
     const [appointments, setAppointments] = useState([]);
 
+    console.log(appointments);
     useEffect(() => {
-        const url = `http://localhost:5000/appointments?patientEmail=${user.email}&date=${date.toLocaleDateString()}`;
+        const url = `https://afternoon-basin-62785.herokuapp.com/appointments?patientEmail=${user.email}&date=${date.toLocaleDateString()}`;
         fetch(url, {
             headers: {
                 'Authorization': `Bearer ${user.token}`
@@ -23,6 +26,7 @@ const Appoinments = ({date}) => {
         })
         .then(res => res.json())
         .then(data => {
+
             setAppointments(data);
         })
     }, [date, user.email, user.token]);
@@ -51,7 +55,13 @@ const Appoinments = ({date}) => {
                                 </TableCell>
                                 <TableCell align="right">{row.time}</TableCell>
                                 <TableCell align="right">{row.serviceName}</TableCell>
-                                <TableCell align="right">{row.fat}</TableCell>
+                                <TableCell align="right">{row.payment ? 
+                                    'Paid': 
+                                        <Link to={`/dashboard/payment/${row._id
+                                        }`} style={{textDecoration: 'none', backgroundColor: 'yellow', padding: 3}}>
+                                            <Button>Pay</Button>
+                                        </Link>
+                                }</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
@@ -61,4 +71,4 @@ const Appoinments = ({date}) => {
     );
 };
 
-export default Appoinments;
+export default Appointments;
